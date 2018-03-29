@@ -13,6 +13,20 @@
 # GPLv3.0 are those programs that are located in the folders src/depends and tests/depends 
 # and which include a reference to GPLv3 in their program files.
 
+if [[ -n "$1" ]]
+then
+    GenePrivKey=$1
+else
+    echo "Please input genesis private key:" && read GenePrivKey
+fi
+
+if [[ -z "$1" ]]
+then
+    echo Cannot proceed with empty GenePrivKey;
+    exit 1
+fi
+
+echo GenePrivKey is $GenePrivKey
 
 sudo sysctl net.core.somaxconn=102400; 
 sudo sysctl net.core.netdev_max_backlog=65536; 
@@ -46,6 +60,6 @@ done
 
 for port in {11..20}
 do
-    python tests/Zilliqa/test_zilliqa_local.py sendtxn 50$port
-done 
+    python tests/Zilliqa/test_zilliqa_local.py sendtxn 50$port $GenePrivKey
+done
 
