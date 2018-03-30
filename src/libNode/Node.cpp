@@ -657,8 +657,8 @@ CreateValidTestingTransaction(const pair<PrivKey, PubKey>& fromKeyPair,
 bool Node::ProcessCreateTransaction(const vector<unsigned char>& message,
                                     unsigned int offset, const Peer& from)
 {
-    LOG_MARKER();
 #ifndef IS_LOOKUP_NODE
+    LOG_MARKER();
 
     if (IsMessageSizeInappropriate(message.size(), offset, PRIV_KEY_SIZE))
     {
