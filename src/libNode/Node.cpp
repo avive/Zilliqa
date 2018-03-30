@@ -607,21 +607,6 @@ bool Node::CheckCreatedTransaction(const Transaction& tx)
 }
 #endif // IS_LOOKUP_NODE
 
-decltype(auto) GetAddressFromPublicKey(PubKey pk)
-{
-    SHA2<HASH_TYPE::HASH_VARIANT_256> sha2;
-    sha2.Reset();
-
-    vector<unsigned char> buffer;
-    pk.Serialize(buffer, 0);
-    sha2.Update(buffer, 0, PUB_KEY_SIZE);
-    auto digest = sha2.Finalize();
-
-    decltype(digest) trailingBytes{digest.end() - ACC_ADDR_SIZE, digest.end()};
-    Address addr{trailingBytes};
-    return addr;
-};
-
 /// Return a valid transaction from fromKeyPair to toAddr with the specified amount
 ///
 /// TODO: nonce is still no valid yet
@@ -686,7 +671,7 @@ bool Node::ProcessCreateTransaction(const vector<unsigned char>& message,
     {
         auto kp = schnorr.GenKeyPair();
         bankers.emplace_back(kp);
-        bankerAddrs.emplace_back(GetAddressFromPublicKey(kp.second));
+        bankerAddrs.emplace_back(Account::GetAddressFromPublicKey(kp.second));
     }
 
     txnToCreate.reserve(nBankers);
