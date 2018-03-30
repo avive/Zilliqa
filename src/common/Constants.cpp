@@ -45,6 +45,23 @@ std::string ReadHexStringFromConnstansFile(std::string propertyName)
     return pt.get<std::string>("node.constants." + propertyName);
 }
 
+const std::vector<std::string>
+ReadAccountsFromConstantsFile(std::string propName)
+{
+    auto pt = PTree::GetInstance();
+    std::vector<std::string> result;
+    for (auto& acc : pt.get_child("node.accounts"))
+    {
+        auto child = acc.second.get_optional<std::string>(propName);
+        if (child)
+        {
+            // LOG_MESSAGE("constants " << child.get());
+            result.push_back(child.get());
+        }
+    }
+    return result;
+}
+
 const unsigned int DS_MULTICAST_CLUSTER_SIZE{
     ReadFromConstantsFile("DS_MULTICAST_CLUSTER_SIZE")};
 const unsigned int COMM_SIZE{ReadFromConstantsFile("COMM_SIZE")};
@@ -77,7 +94,7 @@ const unsigned int MAXSUBMITTXNPERNODE{
     ReadFromConstantsFile("MAXSUBMITTXNPERNODE")};
 const unsigned int TX_SHARING_CLUSTER_SIZE{
     ReadFromConstantsFile("TX_SHARING_CLUSTER_SIZE")};
-const std::string GENESIS_PRIVATE_KEY{
-    ReadHexStringFromConnstansFile("GENESIS_PRIVATE_KEY")};
-const std::string GENESIS_PUBLIC_KEY{
-    ReadHexStringFromConnstansFile("GENESIS_PUBLIC_KEY")};
+const std::vector<std::string> GENESIS_WALLETS{
+    ReadAccountsFromConstantsFile("wallet_address")};
+const std::vector<std::string> GENESIS_KEYS{
+    ReadAccountsFromConstantsFile("private_key")};
