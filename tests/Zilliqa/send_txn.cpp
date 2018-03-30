@@ -33,10 +33,12 @@ using namespace boost::multiprecision;
 int main(int argc, const char* argv[])
 {
 
-    // To use ./sendtxn [port] [genesis private key]
-    if (argc < 3)
+    // To use ./sendtxn [port]
+    if (argc < 2)
     {
-        cout << "[USAGE] " << argv[0] << " <listen_port> <private_key>" << endl;
+        cout << "[USAGE] " << argv[0] << " <local node listen_port> <command>"
+             << endl;
+        cout << "Available commands: cmd " << endl;
     }
 
     uint32_t listen_port = static_cast<unsigned int>(atoi(argv[1]));
@@ -44,21 +46,16 @@ int main(int argc, const char* argv[])
     inet_aton("127.0.0.1", &ip_addr);
     Peer my_port((uint128_t)ip_addr.s_addr, listen_port);
 
-    string gpk(argv[2]);
-
-    string txnMessage = "0203" + gpk;
-
-    // "0203"
-    // "0202AAB3EFF78CC0D5854AC5F3DCF2A7C372E9162340999BB8032F7B7277D698A8"
-    // "02A523F019D0BE0E008108C012716414F6249DA59ECFF9597CC83AA4C0D825FD75"
-    // "0000000000000000000000000000000000000000000000000000000000000064";
-
     // Send the generic message to the local node
-    auto bytes = DataConversion::HexStrToUint8Vec(txnMessage);
+    std::string dummyTxn = "02030202AAB3EFF78CC0D5854AC5F3DCF2A7C372E9162340999"
+                           "BB8032F7B7277D698A802A523F019D0BE0E008108C012716414"
+                           "F6249DA59ECFF9597CC83AA4C0D825FD7500000000000000000"
+                           "00000000000000000000000000000000000000000000064";
+    vector<unsigned char> tmp = DataConversion::HexStrToUint8Vec(dummyTxn);
 
     for (unsigned int i = 0; i < 1; i++)
     {
-        P2PComm::GetInstance().SendMessage(my_port, bytes);
+        P2PComm::GetInstance().SendMessage(my_port, tmp);
         this_thread::sleep_for(chrono::milliseconds(50));
     }
 

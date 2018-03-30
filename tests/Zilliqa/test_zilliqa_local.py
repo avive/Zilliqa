@@ -46,7 +46,7 @@ def print_usage():
 		"\t\tstartpow1 [nodenum] [ds count] [blocknum] [diff] [rand1] [rand2] - Send STARTPOW1 to node\n"
 		"\t\tcreatetx [nodenum] [from] [to] [amount] - Send CREATETRANSACTION to node\n"
 		"\t\tdelete                      - Delete the set-up nodes\n"
-		"\t\tsendtxn [port] [gen_pri_key] - Send valid testing txn at the interval of 1 per seconds\n")
+		"\t\tsendtxn [port]              - Delete dummy txn at the interval of 1 per seconds\n")
 
 def main():
 	numargs = len(sys.argv)
@@ -80,7 +80,7 @@ def main():
 		elif (command == 'delete'):
 			print_usage() if (numargs != 2) else run_delete()
 		elif (command == 'sendtxn'):
-			print_usage() if (numargs != 4) else run_sendtxn(portnum=int(sys.argv[2]), gene_private_key=sys.argv[3])
+			print_usage() if (numargs != 3) else run_sendtxn(portnum=int(sys.argv[2]))
 		else:
 			print_usage()
 
@@ -243,8 +243,8 @@ def run_startpow1(nodenum, dscount, blocknum, diff, rand1, rand2):
 	# Send to node
 	os.system(startpow1_cmd)
 
-def run_sendtxn(portnum, gene_private_key):
-	os.system('tests/Zilliqa/sendtxn ' + str(portnum) + ' ' + gene_private_key + ' &')
+def run_sendtxn(portnum):
+	os.system('tests/Zilliqa/sendtxn ' + str(portnum) + ' &')
 
 def run_delete():
 	if (os.path.exists(LOCAL_RUN_FOLDER)):
