@@ -101,5 +101,6 @@ extern const uint32_t MAXMESSAGE;
 extern const unsigned int MAXSUBMITTXNPERNODE;
 extern const unsigned int TX_SHARING_CLUSTER_SIZE;
 extern const std::string GENESIS_PRIVATE_KEY;
+extern const std::string GENESIS_PUBLIC_KEY;
 
 #endif // __CONSTANTS_H__

@@ -79,3 +79,5 @@ const unsigned int TX_SHARING_CLUSTER_SIZE{
     ReadFromConstantsFile("TX_SHARING_CLUSTER_SIZE")};
 const std::string GENESIS_PRIVATE_KEY{
     ReadHexStringFromConnstansFile("GENESIS_PRIVATE_KEY")};
+const std::string GENESIS_PUBLIC_KEY{
+    ReadHexStringFromConnstansFile("GENESIS_PUBLIC_KEY")};

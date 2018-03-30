@@ -50,10 +50,12 @@ using namespace boost::multiprecision;
 
 void addBalanceToGenesisAccount()
 {
-    Address genesisAddr{DataConversion::HexStrToUint8Vec(
-        "bf1e57cc2f88ef25e7ed9d6504ef1a82eff9c5fe")};
+    auto genePubKeyBytes
+        = DataConversion::HexStrToUint8Vec(GENESIS_PUBLIC_KEY);
+    PubKey genePubKey{genePubKeyBytes, 0};
+
     boost::multiprecision::uint256_t genensisBalance{100000000000};
-    AccountStore::GetInstance().AddAccount(genesisAddr, genensisBalance, 0);
+    AccountStore::GetInstance().AddAccount(genePubKey, genensisBalance, 0);
 }
 
 Node::Node(Mediator& mediator, bool toRetrieveHistory)
