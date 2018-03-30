@@ -18,14 +18,31 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
+using boost::property_tree::ptree;
+
+struct PTree
+{
+    static ptree& GetInstance()
+    {
+        static ptree pt;
+        read_xml("constants.xml", pt);
+
+        return pt;
+    }
+    PTree() = delete;
+    ~PTree() = delete;
+};
+
 unsigned int ReadFromConstantsFile(std::string propertyName)
 {
-    // Populate tree structure pt
-    using boost::property_tree::ptree;
-    ptree pt;
-    read_xml("constants.xml", pt);
-
+    auto pt = PTree::GetInstance();
     return pt.get<unsigned int>("node.constants." + propertyName);
+}
+
+std::string ReadHexStringFromConnstansFile(std::string propertyName)
+{
+    auto pt = PTree::GetInstance();
+    return pt.get<std::string>("node.constants." + propertyName);
 }
 
 const unsigned int DS_MULTICAST_CLUSTER_SIZE{
@@ -60,3 +77,5 @@ const unsigned int MAXSUBMITTXNPERNODE{
     ReadFromConstantsFile("MAXSUBMITTXNPERNODE")};
 const unsigned int TX_SHARING_CLUSTER_SIZE{
     ReadFromConstantsFile("TX_SHARING_CLUSTER_SIZE")};
+const std::string GENESIS_PRIVATE_KEY{
+    ReadHexStringFromConnstansFile("GENESIS_PRIVATE_KEY")};
