@@ -50,8 +50,7 @@ using namespace boost::multiprecision;
 
 void addBalanceToGenesisAccount()
 {
-    auto genePubKeyBytes
-        = DataConversion::HexStrToUint8Vec(GENESIS_PUBLIC_KEY);
+    auto genePubKeyBytes = DataConversion::HexStrToUint8Vec(GENESIS_PUBLIC_KEY);
     PubKey genePubKey{genePubKeyBytes, 0};
 
     boost::multiprecision::uint256_t genensisBalance{100000000000};
